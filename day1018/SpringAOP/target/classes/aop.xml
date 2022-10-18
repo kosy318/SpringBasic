@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+<!-- target 객체 -->
+<bean id="avante" class="com.aop.Avante"/>
+
+<!-- aspect 객체 -->
+<bean id="colorTracker" class="com.aop.ColorTracker"/>
+
+<!-- proxy 생성을 위한 태그 -->
+<!-- namespace에서 AOP 추가 -->
+<aop:aspectj-autoproxy>
+	<!-- proxy가 끼워 넣어줘야하는 aspect 객체 -->
+	<aop:include name="colorTracker" />
+</aop:aspectj-autoproxy>
+
+</beans>
