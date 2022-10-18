@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="star" class="com.coffee.Starbucks">
+		<!-- 기본형 데이터타입이 아님(String은 기본형으로 침), value로 지정할 수 없다. -->
+		<constructor-arg name="ame" ref="coffee1"/>
+		<constructor-arg name="latte" ref="coffee2"/>
+	</bean>
+	
+	<bean id="bean" class="com.coffee.CoffeeBean">
+		<property name="ame" ref="coffee3"/>
+		<property name="latte">
+			<bean class="com.coffee.CafeLatte">
+				<constructor-arg name="price" value="5500"/>
+				<property name="origin" value="brazil"/>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- constructer가 읽어 들어서 객체(bean)를 생성해줌 -->
+	<bean id="coffee1" class="com.coffee.Americano">
+		<!-- 생성자 -->
+		<constructor-arg name="price" value="5000" />
+		<!-- setter 사용 -->
+		<property name="origin" value="india" />
+	</bean>
+
+	<bean id="coffee2" class="com.coffee.CafeLatte">
+		<constructor-arg name="price" value="6000" />
+		<property name="origin" value="columbia" />
+	</bean>
+
+	<bean id="coffee3" class="com.coffee.Americano">
+		<constructor-arg index="0" value="4500" />
+		<property name="origin" value="vietnam" />
+	</bean>
+
+</beans>

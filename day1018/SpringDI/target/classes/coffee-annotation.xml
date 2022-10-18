@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 소스코드 안에서 사용한 annotation 기능을 활성화 시키는 태그 -->
+	<!-- 사용한 annotation을 다 커버 못함 -->
+	<!-- <context:annotation-config></context:annotation-config> -->
+	
+	<context:component-scan base-package="com.coffee.annotation"></context:component-scan>
+
+	<!-- constructer가 읽어 들어서 객체(bean)를 생성해줌 -->
+	<bean id="coffee1" class="com.coffee.annotation.Americano">
+		<!-- 생성자 -->
+		<constructor-arg name="price" value="5000" />
+		<!-- setter 사용 -->
+		<property name="origin" value="india" />
+	</bean>
+
+	<bean id="coffee2" class="com.coffee.annotation.CafeLatte">
+		<constructor-arg name="price" value="6000" />
+		<property name="origin" value="columbia" />
+	</bean>
+
+	<bean id="coffee3" class="com.coffee.annotation.Americano" name="ame, americano">
+		<constructor-arg index="0" value="4500" />
+		<property name="origin" value="vietnam" />
+	</bean>
+
+	<bean id="coffee4" class="com.coffee.annotation.CafeLatte">
+		<constructor-arg name="price" value="6500" />
+		<property name="origin" value="indonesia" />
+	</bean>
+
+</beans>

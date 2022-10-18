@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="seoul" class="com.animal.SeoulZoo">
+		<constructor-arg name="t1">
+			<bean class="com.animal.Tiger">
+				<property name="name" value="seoul tiger"/>
+				<constructor-arg name="age" value="5"/>
+			</bean>
+		</constructor-arg>
+		<property name="l1">
+			<bean class="com.animal.Lion">
+				<property name="name" value="seoul lion"/>
+				<constructor-arg name="age" value="10"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="london" class="com.animal.LondonZoo">
+		<constructor-arg name="t1">
+			<bean class="com.animal.Tiger">
+				<property name="name" value="london tiger"/>
+				<constructor-arg name="age" value="10"/>
+			</bean>
+		</constructor-arg>
+		<property name="l1">
+			<bean class="com.animal.Lion">
+				<property name="name" value="london lion"/>
+				<constructor-arg name="age" value="1"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
