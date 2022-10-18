@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<context:component-scan base-package="com.smart.phone"></context:component-scan>
+
+<bean id="gallaxy-delight" class="com.smart.phone.Gallaxy">
+	<constructor-arg name="model" value="S21 ULTRA"/>
+	<constructor-arg name="price" value="1000000"/>
+	<property name="color" value="black"/>
+</bean>
+
+<bean id="gallaxy-hi" class="com.smart.phone.Gallaxy">
+	<constructor-arg name="model" value="S20"/>
+	<constructor-arg name="price" value="700000"/>
+	<property name="color" value="black"/>
+</bean>
+
+<bean id="iphone-hi" class="com.smart.phone.IPhone">
+	<constructor-arg name="model" value="S10"/>
+	<constructor-arg name="price" value="1000000"/>
+	<property name="color" value="space-gray"/>
+</bean>
+
+</beans>
