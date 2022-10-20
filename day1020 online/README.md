@@ -1,5 +1,3 @@
-# 10/20 Spring MVC & Interceptor & MyBatis(Webex)
-
 # Interceptor
 
 ### HandlerInterceptor를 통한 요청 가로채기
