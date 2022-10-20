@@ -1,0 +1,232 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>DBTest</title>
+</head>
+<body>
+
+	<h1>Receive JSON From DB</h1>
+	<button id="btnEmpDetail">Emp 상세</button>
+	
+	<button id="btnEmpList">Emp 목록</button>
+	<button id="btnEmpInsert">Emp 등록</button>
+	
+	<button id="btnEmpUpdate">Emp 수정</button>
+	<button id="btnEmpDelete">Emp 삭제</button>
+	
+	<button id="btnEmpInsertJSON">Emp 등록 JSON</button>
+	<!-- @ResponseEntity 없을 경우 있을 경우 비교 -->
+	<button id="btnEmpDetailNormal">Emp 상세 일반</button>
+
+	
+	<h1>New Mybatis Test</h1>
+	<button id="btnEmpListLike">Emp List Like</button>
+	<button id="btnEmpListResultMap">Emp List ResultMap</button>
+	<button id="btnEmpListParameterMap">Emp List Parameter Map</button>
+	
+	<h1>Dynamic SQL</h1>
+	<button id="btnEmpListWhereIf">Emp List WhereIf</button>
+	
+<script>
+
+//No jQuery
+
+window.onload = function(){
+	
+	document.querySelector("#btnEmpDetail").onclick = async function(){
+
+		try{
+			let response = await fetch('/mybatis/empDetail/1500')
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+
+  	};
+	
+	
+  	document.querySelector("#btnEmpDetailNormal").onclick = function(){
+		// Full Page Request
+		window.location.href="/mybatis/empDetailNormal/1500";
+  	}
+	
+  	document.querySelector("#btnEmpList").onclick = async function(){
+
+  		try{
+			let response = await fetch('/mybatis/empList')
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+
+	var empInsertData  = {
+			employeeId  : 1998,
+			firstName  	: "ny",
+			lastName	: "Son",
+			email		: "sonny@heroes.com",
+			hireDate	: "2020-10-10"
+		};
+
+	document.querySelector("#btnEmpInsert").onclick = async function(){
+		// No JSON data, Just params
+		let urlParams = new URLSearchParams({
+			employeeId: 1998,
+			firstName  	: "ny",
+			lastName	: "Son",
+			email		: "sonny@heroes.com",
+			hireDate	: "2020-10-10"
+		});
+
+		let fetchOptions = {
+			method: "POST",
+			body: urlParams,
+		}
+	    
+		try{
+			let response = await fetch('/mybatis/empInsert', fetchOptions)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+	
+	document.querySelector("#btnEmpInsertJSON").onclick = async function(){
+
+		let fetchOptions = {
+          method: "POST",
+          headers: {
+        	  'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(empInsertData)
+        }
+		
+		try{
+			let response = await fetch("/mybatis/empInsertJSON/", fetchOptions)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+		
+  	}
+	
+	
+	var empUpdateData  = {
+			employeeId  	: 1998,
+			firstName  	: "sonny",
+			LastName		: "Ul",
+			email		: "ulsonny@heroes.com",
+			hireDate	: "2030-10-10"
+		};
+	
+	document.querySelector("#btnEmpUpdate").onclick = async function(){
+
+		let fetchOptions = {
+          method: "POST",
+          body: new URLSearchParams(empUpdateData)
+        }
+		
+		try{
+			let response = await fetch("/mybatis/empUpdate/", fetchOptions)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+
+	document.querySelector("#btnEmpDelete").onclick = async function(){
+		
+		let fetchOptions = {
+          method: "POST",
+          body: new URLSearchParams( { employeeId	: 1998 } )
+        }
+		
+		try{
+			let response = await fetch("/mybatis/empDelete/", fetchOptions)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+	
+	// MyBatis 연습용
+	// html 문서이므로 backtick 사용
+	document.querySelector("#btnEmpListLike").onclick = async function(){
+		let searchWord = '길동';
+		let url = '/mybatis/empListLike';
+		let urlParams = `?searchWord=${searchWord}`;
+		
+  		try{
+			let response = await fetch(url + urlParams)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+	
+	document.querySelector("#btnEmpListResultMap").onclick = async function(){
+		let searchWord = '길동';
+		let url = '/mybatis/empListResultMap';
+		let urlParams = `?searchWord=${searchWord}`;
+		
+  		try{
+			let response = await fetch(url + urlParams)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+	// back-end 는 세분화되어 있지만, front-end 는 url만 변경해서 테스트
+	document.querySelector("#btnEmpListParameterMap").onclick = async function(){
+		let firstName = '길동';
+		let lastName = '홍';
+		//let url = '/mybatis/empListParameterMap';
+		//let url = '/mybatis/empListParameterMap2';
+		let url = '/mybatis/empListParameterMap3';
+		let urlParams = `?firstName=${firstName}&lastName=${lastName}`;
+		
+  		try{
+			let response = await fetch(url + urlParams)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+	
+	// https://mybatis.org/mybatis-3/ko/dynamic-sql.html
+	// Where/If
+	// Dynamic SQL, firstName 또는 lastName 이 선택적으로 사용될 때
+	document.querySelector("#btnEmpListWhereIf").onclick = async function(){
+		let firstName = '길동';
+		let lastName = '홍';
+		let url = '/mybatis/empListWhereIf';
+// 		let urlParams = `?lastName=${lastName}`; // lastName 만
+// 		let urlParams = `?firstName=${firstName}`; // firstName 만
+// 		let urlParams = ``; // 모두 생략
+// 		let urlParams = `?firstName=${firstName}&lastName=${lastName}`; //  모두 포함
+		
+		// 아래의 경우 firstName 이 null 이 아닌, 공백 문자로 넘어간다.
+		// mybatis 에서 공백까지 처리해줘야 함.
+ 		let urlParams = `?firstName=&lastName=${lastName}`; //  firstName 공백 // 주의 firstName=''&lastName 처럼 '' 를 사용하면 안됨. 파라미터값을 가지게 됨
+		
+  		try{
+			let response = await fetch(url + urlParams)
+			let data = await response.json();
+			console.log(data);
+		}catch(error){
+			console.error(error);
+		}
+  	}
+};
+</script>
+</body>
+</html>

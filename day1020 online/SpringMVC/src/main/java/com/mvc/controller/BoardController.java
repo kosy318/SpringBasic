@@ -30,8 +30,9 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public String read(HttpServletRequest request, Model model) {
-		String num = request.getParameter("num");
+	// public String read(@RequestParam String num, Model model) {
+	// public String read(@RequestParam("num") String no, Model model) {
+	public String read(String num, Model model) {
 		Board b = service.selectOne(num);
 		model.addAttribute("b", b);
 
@@ -49,25 +50,22 @@ public class BoardController {
 	}
 
 	@PostMapping(value="insert")
-	public String insertProcess(HttpServletRequest request, Board b) throws IOException {
-		if(request.getParameter("how").equals("insert")) service.insert(b);
-		else if(request.getParameter("how").equals("modify")) service.modify(b);
+	public String insertProcess(String how, Board b) throws IOException {
+		if(how.equals("insert")) service.insert(b);
+		else if(how.equals("modify")) service.modify(b);
 		
 		return "redirect:/list";
 	}
 
 	@GetMapping(value="delete")
-	public String delete(HttpServletRequest request) {
-		String num = request.getParameter("num");
+	public String delete(String num) {
 		service.delete(num);
 		
 		return "redirect:/list";
 	}
 	
 	@GetMapping(value="search")
-	public String search(HttpServletRequest request, Model model) {
-		String search = request.getParameter("search");
-		String word = request.getParameter("word");
+	public String search(String search, String word, Model model) {
 		ArrayList<Board> list = service.searchWord(search, word);
 		model.addAttribute("list", list);
 		model.addAttribute("word", word);
@@ -75,8 +73,7 @@ public class BoardController {
 	}
 	
 	@GetMapping(value="modify")
-	public String modify(HttpServletRequest request, Model model) {
-		String num = request.getParameter("num");
+	public String modify(String num, Model model) {
 		Board b = service.selectOne(num);
 		model.addAttribute("b", b);
 		
