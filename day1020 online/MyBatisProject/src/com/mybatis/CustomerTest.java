@@ -23,27 +23,59 @@ public class CustomerTest {
 			SqlSessionFactory factory = builder.build(reader);
 			SqlSession session = factory.openSession();	 // false(default), true(auto commit)
 			
+			System.out.println("selectAll------------------------------------------------------------------");
 			// 1. selectList() : select 결과가 여러건일때
 			List<Customer> list = session.selectList("Customer.selectAll");
 			for(Customer c : list) {
 				System.out.println(c);
 			}
 			
-			System.out.println("------------------------------------------------------------------");
+			System.out.println("selectOne------------------------------------------------------------------");
 			
 			// 2. selectOne
-			Customer c = session.selectOne("Customer.selectOne", "111");
-			System.out.println(c);
+			Customer c1 = session.selectOne("Customer.selectOne", "111");
+			System.out.println(c1);
+			
+			System.out.println("insert------------------------------------------------------------------");
 			
 			// 3. insert
-			
+			Customer in = new Customer("123", "1234", "12345");
+			session.insert("Customer.insert", in);
 			session.commit();
+			list = session.selectList("Customer.selectAll");
+			for(Customer c : list) {
+				System.out.println(c);
+			}
+			
+			System.out.println("update------------------------------------------------------------------");
+
+			// 5. update
+			in.setName("일이삼");
+			session.update("Customer.update", in);
+			session.commit();
+			list = session.selectList("Customer.selectAll");
+			for(Customer c : list) {
+				System.out.println(c);
+			}
+			
+			System.out.println("delete------------------------------------------------------------------");
 			
 			// 4. delete
+			String num = "123";
+			session.delete("Customer.delete", num);
+			session.commit();
+			list = session.selectList("Customer.selectAll");
+			for(Customer c : list) {
+				System.out.println(c);
+			}
 			
-			// 5. update
+			System.out.println("selectAddress------------------------------------------------------------------");
 			
 			// 6. 주소로 검색
+			List<Customer> list2 = session.selectList("Customer.selectAddress", "seoul");
+			for(Customer c : list2) {
+				System.out.println(c);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} // 입력 스트림을 사용해서 read conf xml file 리소스를 가져옵니다.

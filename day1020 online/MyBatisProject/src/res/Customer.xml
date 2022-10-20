@@ -12,5 +12,27 @@
 	<select id="selectOne" parameterType="string" resultType="Customer">
 		select * from customer where num=#{num}
 	</select>
+	
+	<insert id="insert" parameterType="Customer">
+		insert into customer(num, name, address)
+			values(#{num}, #{name}, #{address})		
+	</insert>
+	
+	<delete id="delete" parameterType="string">
+		delete from customer
+			where num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="Customer">
+		update customer
+			set name=#{name},
+				address=#{address}
+			where num=#{num}
+	</update>
+	
+	<select id="selectAddress" parameterType="string" resultType="Customer">
+		select * from customer
+			where address=#{address}
+	</select>
 
 </mapper>
