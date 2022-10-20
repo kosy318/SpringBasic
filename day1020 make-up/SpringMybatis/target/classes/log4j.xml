@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<!-- 상세한 순서 -->
+	<!-- 상세한 순서ㄱ -->
 	<!-- TRACE > DEBUG > INFO > WARN > ERROR -->
 	<logger name="com.mycom.mybatis">
 		<level value="info" />
