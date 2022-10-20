@@ -175,7 +175,6 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public void modify(Board b) {
 		String q = "update board set pass=?, name=?, title=?, content=? where num=?";
-		System.out.println(b.getNum());
 		int x  = 0;
 		try {
 			Connection con = util.getConnection();
