@@ -12,13 +12,9 @@
 
 | HandlerInterceptor method |
 | --- |
-| boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-- false를 반환하면 request를 바로 종료 |
-| void postHandle(HttpServletRequest requet, HttpServletResponse response, Object handler, ModelAndView modelAndView)
-- Controller 수행 후 호출 |
-| void after Completion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-- view를 통해 클라이언트에 응답을 전송한 뒤 실행
-- 예외가 발생하여도 실행 |
+| boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)<br>- false를 반환하면 request를 바로 종료 |
+| void postHandle(HttpServletRequest requet, HttpServletResponse response, Object handler, ModelAndView modelAndView)<br>- Controller 수행 후 호출 |
+| void after Completion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)<br>- view를 통해 클라이언트에 응답을 전송한 뒤 실행<br>- 예외가 발생하여도 실행 |
 
 ### HandlerInterceptor를 통한 요청 가로채기
 
@@ -26,7 +22,7 @@
 - HandlerInterceptorAdaptor 클래스 제공
 - Interceptor 설정하기 : servlet-context.xml
 
-![Untitled](10%2020%20Spring%20MVC%20&%20Interceptor%20&%20MyBatis(Webex)%20654f62f26eb34d81a42a3ba6d7db45ea/Untitled.png)
+![Untitled 1](https://user-images.githubusercontent.com/77595685/197012278-6d8e8748-9d29-4227-bd9a-64851222141a.png)
 
 # MyBatis
 
@@ -40,8 +36,8 @@
 - DB관련 환경 설정 부분에서부터 쿼리 실행 결과를 다루는 부분까지 거의 모든 JDBC 코드를 대신함
 - 간단한 XML 문서나 Annotation을 이용하여 환경설정이 가능하며 기본형 데이터, Map 그리고 일반 객체를 DB의 레코드와 맵핑 시킬 수 있음.
 
-![MyBatis](10%2020%20Spring%20MVC%20&%20Interceptor%20&%20MyBatis(Webex)%20654f62f26eb34d81a42a3ba6d7db45ea/Untitled%201.png)
+![Untitled 2](https://user-images.githubusercontent.com/77595685/197012307-1f6fabc7-511a-44de-9709-72843a3cc6c7.png)
 
 MyBatis
 
-![Untitled](10%2020%20Spring%20MVC%20&%20Interceptor%20&%20MyBatis(Webex)%20654f62f26eb34d81a42a3ba6d7db45ea/Untitled%202.png)
+![Untitled](https://user-images.githubusercontent.com/77595685/197012325-7c4eb472-ba33-4ea4-88c8-15a3f4a1c34d.png)
