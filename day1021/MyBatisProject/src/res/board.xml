@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+
+	<select id="selectAll" resultType="Board">
+		select * from board
+			order by num desc
+	</select>
+
+	<select id="selectOne" parameterType="string" resultType="Board">
+		select * from board where num=#{num}
+			order by num desc
+	</select>
+	
+	<insert id="insert" parameterType="Board">
+		insert into board(pass, name, wdate, title, content, count)
+			values(#{pass}, #{name}, now(), #{title}, #{content}, #{count})		
+	</insert>
+	
+	<update id="countUp" parameterType="string">
+		update board set count = count+1
+			where num=#{num};
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from board
+			where num=#{num}
+	</delete>
+	
+	<!-- 번호 기준으로 제목과 내용 수정 -->
+	<update id="update" parameterType="Board">
+		update board
+			set title=#{title},
+				content=#{content}
+			where num=#{num}
+	</update>
+	
+	<!-- 검색: 제목 기준 like 검색, 이름 기준 검색 -->
+	<select id="select" parameterType="map" resultType="Board">
+		select * from board
+		<where>
+			<choose>
+				<when test="condition != null and condition=='name'">
+					name=#{word}
+				</when>
+				<when test="condition != null and condition=='title'">
+					title like concat('%', #{word}, '%')
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- 로그인 체크 -->
+	
+</mapper>

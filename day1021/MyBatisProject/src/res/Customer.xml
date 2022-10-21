@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Customer">
+<!-- resultMap: select 한 후의 컬럼명과 VO안의 필드명이 일치하지 않을 때 사용 -->
+	<resultMap type="Customer" id="JoinResult">
+		<result column="empid" property="num"/>
+		<result column="fname" property="name"/>
+		<result column="deptname" property="address"/>
+	</resultMap>
+
+	<select id="select1" parameterType="string" resultMap="JoinResult">
+		select empid, fname, deptid
+			from emp
+			where deptid = 50
+			<if test="fname != null">
+				and fname like concat('%', #{fname}, '%')
+			</if>
+	</select>
+	
+	<select id="select2" parameterType="map" resultMap="JoinResult">
+		select * from emp
+		<if test="deptid != null">
+			where deptid = #{deptid}
+		</if>
+		<if test="jobid != null">
+			where jobid = #{jobid}
+		</if>
+	</select>
+	
+	<select id="select3" resultMap="JoinResult">
+		select empid, fname, deptid
+			from emp
+			where deptid in(
+			<foreach collection="array" separator="," item="itemx">
+				#{itemx}
+			</foreach>
+			)
+	</select>
+
+	<!-- <select id="join" resultMap="JoinResult"> -->
+	<select id="join" resultType="Customer">
+		select e.empid num, e.fname name, d.deptname address 
+			from emp e, dept d
+			where e.deptid is not null
+				and e.deptid = d.deptid
+	</select>
+
+	<select id="selectAll" resultType="Customer">
+		select * from customer
+	</select>
+
+	<select id="selectOne" parameterType="string" resultType="Customer">
+		select * from customer where num=#{num}
+	</select>
+	
+	<insert id="insert" parameterType="Customer">
+		insert into customer(num, name, address)
+			values(#{num}, #{name}, #{address})		
+	</insert>
+	
+	<delete id="delete" parameterType="string">
+		delete from customer
+			where num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="Customer">
+		update customer
+			set name=#{name},
+				address=#{address}
+			where num=#{num}
+	</update>
+	
+	<select id="selectAddress" parameterType="string" resultType="Customer">
+		select * from customer
+			where address=#{address}
+	</select>
+
+</mapper>
