@@ -74,6 +74,12 @@ public class TodoController {
 		return "redirect:/list";
 	}
 	
+	@GetMapping("deleteAll")
+	public String deleteAll(String num) throws Exception {
+		service.deleteAll();
+		return "redirect:/list";
+	}
+	
 	@GetMapping("complete")
 	public String complete(String num) throws Exception {
 		service.complete(num);

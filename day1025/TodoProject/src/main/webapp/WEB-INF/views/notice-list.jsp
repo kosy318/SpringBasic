@@ -21,7 +21,7 @@
 	<div class="container text-center pt-5">
 		<h1>NOTICE</h1>
 		<div class="text-right">
-			<c:if test="${ role eq 'admin' }"><a href="insertNotice" class="btn btn-info" role="button">글쓰기</a></c:if>&nbsp;&nbsp;
+			<c:if test="${ role eq 'admin' }"><a href="notice-insert" class="btn btn-info" role="button">글쓰기</a></c:if>&nbsp;&nbsp;
 		</div>
 		<br>
 
@@ -38,7 +38,7 @@
 				<c:forEach items="${ noticeList }" var="notice">
 					<tr>
 						<td>${ notice.num }</td>
-						<td><a href="readNotice?num=${ notice.num }">${ notice.title }</a></td>
+						<td><a href="notice-read?num=${ notice.num }">${ notice.title }</a></td>
 						<td>${ notice.date }</td>
 					</tr>
 				</c:forEach>

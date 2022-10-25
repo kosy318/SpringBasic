@@ -13,9 +13,9 @@
 		<div class="collapse navbar-collapse" id="navb">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"><a class="nav-link"
-					href="qna">QnA</a></li>
+					href="qna-list">QnA</a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="notice">공지사항</a></li>
+					href="notice-list">공지사항</a></li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0" action="searchAll" method="get">
 				<select class="form-control" name="search">
