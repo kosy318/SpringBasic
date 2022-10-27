@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components 
+		 DB, Service ... -->
+	
+	<import resource="dbConfig.xml"/>
+	<context:component-scan base-package="com.mvc.service"/>
+	<context:component-scan base-package="com.mvc.interceptor"/>
+	
+	<!-- mybatis : sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds"/>
+		<property name="typeAliasesPackage" value="com.mvc.vo"/>
+		<property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
+	</bean>
+	
+	<!-- java mapper(interface)를 찾아서 proxy객체를 생성한 뒤 서비스 객체에 주입시켜줌. -->
+	<bean id="config" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.mvc.mapper"/>
+	</bean>
+	
+	<!-- transactionManager 생성 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ds"/>
+	</bean>
+	
+	<!-- @Transactional이 동작하도록 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
