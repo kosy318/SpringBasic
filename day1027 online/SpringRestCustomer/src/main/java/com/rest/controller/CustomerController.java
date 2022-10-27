@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,16 @@ public class CustomerController {
 	@PutMapping(value="/customers")
 	public ResponseEntity<?> update(@RequestBody Customer customer){
 		customerService.update(customer);
+		List<Customer> list = customerService.selectAll();
+		if(list != null && !list.isEmpty()) {
+			return new ResponseEntity<List<Customer>>(list, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+	}
+	
+	@DeleteMapping(value="/customers/{num}")
+	public ResponseEntity<?> delete(@PathVariable String num){
+		customerService.delete(num);
 		List<Customer> list = customerService.selectAll();
 		if(list != null && !list.isEmpty()) {
 			return new ResponseEntity<List<Customer>>(list, HttpStatus.OK);
