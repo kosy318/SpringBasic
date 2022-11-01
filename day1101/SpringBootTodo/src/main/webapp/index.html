@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>TodoList</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body onload="start()">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="list">TodoList</a>
+
+		<div class="collapse navbar-collapse" id="navb">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">QnA</li>
+				<li class="nav-item">공지사항</li>
+			</ul>
+			<div id="login" style="display: none;">
+				<a href="login" class="btn btn-outline-info" role="button">로그인</a>
+			</div>
+
+			<div id="logout" style="display: none;">
+				<span style="color: white">Welcome, <b><span
+						class="user-name"></span>(<span id="user-id"></span>)</b></span>&nbsp;&nbsp;&nbsp;
+				<a href="logout" class="btn btn-outline-info" role="button">로그아웃</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container text-center pt-5">
+		<h1><span class="user-name"></span>'s Todo List</h1>
+		<div class="text-right mb-2">
+			<div class="btn-group">
+				<a type="button" href="insert" class="btn btn-info" role="button">할 일 추가</a>
+				<a type="button" href="deleteAll" class="btn btn-info" role="button">전체 삭제</a>
+			</div>
+		</div>
+		<div class="form-inline mb-2 float-right">
+			<select class="form-control" name="search" id="search" onchange="selectChange()">
+				<option value="content" selected="selected">내용</option>
+				<option value="date">날짜</option>
+			</select>&nbsp;&nbsp; <input id="word" class="form-control mr-sm-2" type="text"
+				name="word">
+			<button class="btn btn-info my-2 my-sm-0" onclick="searchTodo()">검색</button>
+		</div>
+		<br>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>내용</th>
+					<th>날짜</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="tb">
+			</tbody>
+		</table>
+	</div>
+	
+	<script>
+		let root="http://localhost/"
+		
+		function start(){
+			/*let names = document.getElementsByClassName("user-name");
+			names.forEach(name => {
+				name.innerHTML =  sessionStorage.getItem("userName");
+			})
+			let ids = document.getElementsByClassName("user-id");
+			names.forEach(id => {
+				id.innerHTML =  sessionStorage.getItem("userId");
+			})*/
+			listTodo();
+		}
+		
+		function listTodo(){
+			fetch(root+"/todo")
+				.then(response => response.json())
+				.then(data => listTodoResult(data))
+		}
+		
+		function listTodoResult(data){
+			let tbody=``;
+			let len = data.length;
+			for(let i=1; i<=data.length; i++){
+				console.log(data[i-1].num);
+				tbody += `<tr><td>${ len - i + 1 }</td>`
+				if(data[i-1].done == "N"){
+					tbody += `<td>${ data[i-1].content }</td>`
+				}
+				else{
+					tbody += `<td><del>${ data[i-1].content }</del></td>`
+				}
+				tbody += `<td>${ data[i-1].sdate }~${ data[i-1].edate }</td>`
+				if(data[i-1].done == "N"){
+					tbody += `<td><input
+							onchange="change(${ data[i-1].done }, ${ data[i-1].num })"
+							class="form-check-input" name="done" type="checkbox"></td></tr>`
+				}
+				else{
+					tbody += `<td><input
+							onchange="change(${ data[i-1].done }, ${ data[i-1].num })"
+							class="form-check-input" name="done" type="checkbox"
+							checked="checked"></td></tr>`
+				}
+			}	
+			document.querySelector("#tb").innerHTML = tbody;
+		}
+
+		function change(done, num){
+			fetch(root+"/todo"+num+"/"+done)
+				.then(response => listTodo())
+		}
+		
+		function selectChange(){
+			select = document.querySelector("#search");
+			if(select.value === "date"){
+				document.querySelector("#word").setAttribute("type", "date");
+			}else{
+				document.querySelector("#word").setAttribute("type", "text");
+			}
+		}
+	</script>
+</body>
+</html>
+
+
+

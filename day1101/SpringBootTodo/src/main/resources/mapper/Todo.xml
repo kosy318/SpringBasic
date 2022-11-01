@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 파일과 매핑되어 실행될 자바 매퍼 파일 정보 -->
+<mapper namespace="com.todo.mapper.TodoMapper">
+
+	<select id="allList" resultType="Todo">
+		select *
+		from todo
+		order by num desc
+	</select>
+	
+	<select id="findByNum" parameterType="map" resultType="Todo">
+		select * from todo
+		where num = #{num}
+		<!-- and id=#{id} -->
+		order by num desc
+	</select>
+	
+	<select id="findById" resultType="Todo">
+		select * from todo
+		where id = #{id}
+		order by num desc
+	</select>
+
+	<!-- 검색: date, content 기준 검색 -->
+	<select id="search" parameterType="map" resultType="Todo">
+		select * from todo
+		<where>
+			<choose>
+				<when test="search != null and search=='date'">
+					#{word} between sdate and edate
+					<!-- and id=#{id} -->
+					order by num desc
+				</when>
+				<when test="search != null and search=='content'">
+					content like concat('%', #{word}, '%')
+					<!-- and id=#{id} -->
+					order by num desc
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<insert id="add" parameterType="Todo" >
+		insert into todo(content, id, sdate, edate, done)
+		values(#{content}, #{id}, #{sdate}, #{edate}, 'N')
+	</insert>
+	
+	<update id="modify" parameterType="Todo" >
+		update todo
+		set content=#{content}, sdate=#{sdate}, edate=#{edate}
+		where num=#{num}
+	</update>
+	
+	<delete id="delete">
+		delete from todo
+		where num=#{num}
+	</delete>
+
+	<delete id="deleteAll">
+		truncate todo
+	</delete>
+	
+	<update id="complete">
+		update todo
+		set done='Y'
+		where num=#{num}
+	</update>
+	
+	<update id="incomplete">
+		update todo
+		set done='N'
+		where num=#{num}
+	</update>
+	
+</mapper>
